@@ -30,11 +30,12 @@ class Polynomial (object):
             self.degree = 0
 
         if self.coeffs:
-            for elements in range( len(objCoeffs)):
-                if (len(self.coeffs) > 1 and self.coeffs[0] == 0):
-                    self.coeffs.pop(0)
-                else:
-                    break;
+            if not (isinstance(objCoeffs, (int, float))or isinstance(objCoeffs, Polynomial)):  ##if oblCoeffs is number
+                for elements in range( len(objCoeffs)):
+                    if (len(self.coeffs) > 1 and self.coeffs[0] == 0):
+                        self.coeffs.pop(0)
+                    else:
+                        break;
 
         if len(self.coeffs) >= 1:
             self.degree = len(self.coeffs) - 1
@@ -49,14 +50,17 @@ class Polynomial (object):
             if coeff:
                 if self.degree > 0:
                     if coeff >0:
-                        if (self.degree == pow):
+                        if (pow==0):
                             sign = ""
                         else:
                             sign = "+"
                     else:
                         sign = "-"
                     if abs(coeff) == 1:
-                        result += sign ##add coeff in string without 1
+                        if (self.degree == pow):
+                            result += sign+"1"
+                        else:
+                            result += sign ##add coeff in string without 1
                     else:
                         result+=sign+str(abs(coeff)) ##add coeff in string
 
@@ -65,7 +69,7 @@ class Polynomial (object):
                     elif (self.degree - pow==0):
                         result += ""
                     else:
-                        result +="x" + (("^" + str(self.degree - pow))+" ")
+                        result +="x" + (("^" + str(self.degree - pow)))
                 elif self.degree == 0:
                     result +=  str(coeff)
                 else: ##self.degree < 0:
@@ -77,7 +81,7 @@ class Polynomial (object):
 
     ## NEGATIVE *(-1)
     def __neg__(self):
-        return Polynomial([(coeff * (-1)) for coeff in self.coeffs])
+        return Polynomial([-coeff  for coeff in self.coeffs])
 
     ## EQUALITY ==
     def __eq__(self, values):
@@ -86,6 +90,7 @@ class Polynomial (object):
         elif isinstance(values, (int, float)) and self.degree == 0:
             return self.coeffs[0] == values
         elif isinstance(values, str):
+            ValueError('STR!!!!!!! '+str(self))
             return str(self) == values
         else:
             return False
