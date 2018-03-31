@@ -42,7 +42,6 @@ class Polynomial (object):
             self.degree =0
 
     ## TO STRING
-    @property
     def __str__(self):
         result = ""
         sign = ""
@@ -76,6 +75,24 @@ class Polynomial (object):
         else:
             return "0"
 
+    ## NEGATIVE *(-1)
+    def __neg__(self):
+        return Polynomial([(coeff * (-1)) for coeff in self.coeffs])
+
+    ## EQUALITY ==
+    def __eq__(self, values):
+        if isinstance(values, Polynomial):
+            return self.coeffs == values.coeffs
+        elif isinstance(values, (int, float)) and self.degree == 0:
+            return self.coeffs[0] == values
+        elif isinstance(values, str):
+            return str(self) == values
+        else:
+            return False
+    # not EQUALITY !=
+    def __ne__(self, values):
+        return not self == values
+
     ## ADD
     def __add__(self, values):
         result = []
@@ -98,8 +115,9 @@ class Polynomial (object):
         else:
             raise TypeError('Incorrect type in __add__ (or __radd__) method ', values)
         return Polynomial(result)
-    def __radd__(self, other):
-        return self + other
+    def __radd__(self, values):
+        return self + values
+
     ##MUL
     def __mul__(self, values):
         if isinstance(values, Polynomial):
@@ -112,9 +130,17 @@ class Polynomial (object):
         else:
             raise TypeError('Incorrect type in __mul__ (or __rmul__) method ', values)
         return Polynomial(result)
-    def __rmul__(self, other):
-        return self * other
+    def __rmul__(self, values):
+        return self * values
 
+    ## SUB
+    def __sub__(self, values):
+        if isinstance(values, (int, float, Polynomial)):
+            return self.__add__(-values)
+        else:
+            raise TypeError('Incorrect type in __sub__ (or __rsub__) method ', values)
+    def __rsub__(self, values):
+        return (self.__neg__()).__add__(values)
 
 
 
