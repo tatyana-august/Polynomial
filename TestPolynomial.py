@@ -70,6 +70,7 @@ class Test_test1(unittest.TestCase):
         self.assertEqual(str(pol10), "-9.9x^2+8.9")
 
     def test_Neg(self):
+
         pol1 = Polynomial([13, 17, 18, 19])
         self.assertEqual(str(-pol1), "-13x^3-17x^2-18x-19")
 
@@ -85,61 +86,95 @@ class Test_test1(unittest.TestCase):
         pol5 = Polynomial([-13.7, 0, 18.8, 0.0])
         self.assertEqual(str(-pol5), "13.7x^3-18.8x")
 
+    def test_Eq(self):
 
-    def test_AddPos(self):
-        p = Polynomial([1, 4, 6, 9])
-        s = Polynomial([1, 4, 6])
-        self.assertListEqual((p + s).coeffs, [1, 5, 10, 15])
-        self.assertListEqual((s + p).coeffs, [1, 5, 10, 15])
+        pol1 = Polynomial([1, 2, 3, 4])
+        pol2 = Polynomial([-9, 0, 8])
+        self.assertEqual(pol1, Polynomial([1, 2, 3, 4]))
+        self.assertEqual(pol2, Polynomial([-9, 0, 8]))
+        self.assertTrue(pol1 == Polynomial([1, 2, 3, 4]))
+        self.assertTrue(pol2 == Polynomial([-9, 0, 8]))
+        self.assertFalse(pol1 == pol2)
 
-    def test_AddPosNeg(self):
-        p = Polynomial([-1, 4, -6, 9])
-        s = Polynomial([1, 4, 6])
-        self.assertListEqual((p + s).coeffs, [-1, 5, -2, 15])
-        self.assertListEqual((s + p).coeffs, [-1, 5, -2, 15])
+        pol1 = Polynomial([1.6, 2.6, 3.6, 4.6])
+        pol2 = Polynomial([-9.6, 0, 8.6])
+        self.assertEqual(pol1, Polynomial([1.6, 2.6, 3.6, 4.6]))
+        self.assertEqual(pol2, Polynomial([-9.6, 0, 8.6]))
+        self.assertTrue(pol1 == Polynomial([1.6, 2.6, 3.6, 4.6]))
+        self.assertTrue(pol2 == Polynomial([-9.6, 0, 8.6]))
+        self.assertFalse(pol1 == pol2)
 
-    def test_AddPosNegConst(self):
-        p = Polynomial([-1, 4, -6, 9])
-        self.assertListEqual((p + 6).coeffs, [-1, 4, -6, 15])
-        self.assertListEqual((p - 18).coeffs, [-1, 4, -6, -9])
+    def test_Ne(self):
 
-    def test_AddPosNegNull(self):
-        p = Polynomial([0, 0, 0, -1, 0, 4, 0, -6, 9])
-        s = Polynomial([0, 0, 0, 0, 0, 1, 4])
-        self.assertListEqual((p + s).coeffs, [-1, 0, 4, 0, -5, 13])
-        self.assertListEqual((s + p).coeffs, [-1, 0, 4, 0, -5, 13])
+        pol1 = Polynomial([1, 2, 3, 4])
+        pol2 = Polynomial([-9, 0, 8])
+        self.assertFalse(pol1 != Polynomial([1, 2, 3, 4]))
+        self.assertFalse(pol2 != Polynomial([-9, 0, 8]))
+        self.assertTrue(pol1 != pol2)
 
-    def test_AddZero(self):
-        p = Polynomial([0, 0, 0, -1, 0, 4, 0, -6, 9])
-        s = Polynomial([0, 0, 0])
-        self.assertListEqual((p + s).coeffs, [-1, 0, 4, 0, -6, 9])
+        pol1 = Polynomial([1.6, 2.6, 3.6, 4.6])
+        pol2 = Polynomial([-9.6, 0, 8.6])
+        self.assertFalse(pol1 != Polynomial([1.6, 2.6, 3.6, 4.6]))
+        self.assertFalse(pol2 != Polynomial([-9.6, 0, 8.6]))
+        self.assertTrue(pol1 != pol2)
 
-    def test_AddIntConst(self):
-        p = Polynomial([0, 0, 0, -1, 0, 4, 0, -6, 9])
-        s = 5
-        self.assertListEqual((p + s).coeffs, [-1, 0, 4, 0, -6, 14])
+    def test_Add(self):
 
-    def test_LeftAddIntConst(self):
-        p = Polynomial([0, 0, 0, -1, 0, 4, 0, -6, 9])
-        s = 5
-        self.assertListEqual((s + p).coeffs, [-1, 0, 4, 0, -6, 14])
+        pol1 = Polynomial([1, 2, 3, 4])
+        pol2 = Polynomial([9, 7, 8])
+        self.assertListEqual((pol1 + pol2).coeffs, [1, 11, 10, 12])
+        self.assertListEqual((pol2 + pol1).coeffs, [1, 11, 10, 12])
 
-    def test_AddFloatConst(self):
-        p = Polynomial([0, 0, 0, -1, 0, 4, 0, -6, 9])
-        s = 5.6
-        self.assertListEqual((p + s).coeffs, [-1, 0, 4, 0, -6, 14.6])
+        pol1 = Polynomial([1, 2, 3, 4])
+        pol2 = Polynomial([-9, -7, -8])
+        self.assertListEqual((pol1 + pol2).coeffs, [1, -7, -4, -4])
+        self.assertListEqual((pol2 + pol1).coeffs, [1, -7, -4, -4])
 
-    def test_AddFloat(self):
-        p = Polynomial([0., 0, 0., -1, 0, 4.5, 0, -6, 9.9])
-        s = Polynomial([0, 0, 0, 0, 0, 1, 4])
-        self.assertListEqual((p + s).coeffs, [-1, 0, 4.5, 0, -5, 13.9])
-        self.assertListEqual((s + p).coeffs, [-1, 0, 4.5, 0, -5, 13.9])
+        pol1 = Polynomial([0, 2, 3, 0])
+        pol2 = Polynomial([-9, 0, -8])
+        self.assertListEqual((pol1 + pol2).coeffs, [-7, 3, -8])
+        self.assertListEqual((pol2 + pol1).coeffs, [-7, 3, -8])
 
-    def test_Sub(self):
-        p = Polynomial([0., 0, 0., -1, 0, 4.5, 0, -6, 9.9])
-        s = Polynomial([0, 0, 0, 0, 0, 1, 4])
-        self.assertListEqual((p - s).coeffs, [-1, 0, 4.5, 0, -7, 5.9])
-        self.assertListEqual((s - p).coeffs, [1, 0, -4.5, 0, 7, -5.9])
+        pol1 = Polynomial([1.6, 2, 3, 4])
+        pol2 = Polynomial([9, 7.6, 8])
+        self.assertListEqual((pol1 + pol2).coeffs, [1.6, 11, 10.6, 12])
+        self.assertListEqual((pol2 + pol1).coeffs, [1.6, 11, 10.6, 12])
+
+        pol1 = Polynomial([1.1, -2.6, 3.5, 4])
+        pol2 = Polynomial([9.1, -7.6, -8])
+        self.assertListEqual((pol1 + pol2).coeffs, [1.1, 6.5, -4.1, -4])
+        self.assertListEqual((pol2 + pol1).coeffs, [1.1, 6.5, -4.1, -4])
+
+        pol1 = Polynomial([0, 2.7, 3.7, 0])
+        pol2 = Polynomial([-9.5, 0, -8.5])
+        self.assertListEqual((pol1 + pol2).coeffs, [-6.8, 3.7, -8.5])
+        self.assertListEqual((pol2 + pol1).coeffs, [-6.8, 3.7, -8.5])
+
+
+    def test_AddConst(self):
+
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = 5
+        self.assertListEqual((pol1 + constanta).coeffs, [1.3, -2.6, 0, 9])
+        self.assertListEqual((constanta + pol1).coeffs, [1.3, -2.6, 0, 9])
+
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = -5
+        self.assertListEqual((pol1 + constanta).coeffs, [1.3, -2.6, 0, -1])
+        self.assertListEqual((constanta + pol1).coeffs, [1.3, -2.6, 0, -1])
+
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = 0.0
+        self.assertListEqual((pol1 + constanta).coeffs, [1.3, -2.6, 0, 4])
+        self.assertListEqual((constanta + pol1).coeffs, [1.3, -2.6, 0, 4])
+
+        pol1 = Polynomial([1.3, -2.6, 0, 4.2])
+        constanta = -5.7
+        self.assertListEqual((pol1 + constanta).coeffs, [1.3, -2.6, 0, -1.5])
+        self.assertListEqual((constanta + pol1).coeffs, [1.3, -2.6, 0, -1.5])
+
+
+
 
     def test_Mult(self):
         p = Polynomial([0., 0, 0., -1, 0, 4.5, 0, -6, 9.9])
@@ -175,27 +210,13 @@ class Test_test1(unittest.TestCase):
         self.assertEqual((p * s).coeffs, [25, -5, 5])
 
 
-
-    def test_EqualInt(self):
-        p = Polynomial([1, 4, 6])
+    def test_Sub(self):
+        p = Polynomial([0., 0, 0., -1, 0, 4.5, 0, -6, 9.9])
         s = Polynomial([0, 0, 0, 0, 0, 1, 4])
-        self.assertEqual(p, Polynomial([1, 4, 6]))
-        self.assertTrue(p == Polynomial([1, 4, 6]))
-        self.assertTrue(p != s)
-        self.assertFalse(p == s)
-        s = Polynomial([0, 0, 0, 0, 0])
-        p = 0
-        self.assertTrue(p == s)
-        p = "a"
-        self.assertRaises(TypeError, s.__eq__, p)
+        self.assertListEqual((p - s).coeffs, [-1, 0, 4.5, 0, -7, 5.9])
+        self.assertListEqual((s - p).coeffs, [1, 0, -4.5, 0, 7, -5.9])
 
-    def test_EqualFloat(self):
-        p = Polynomial([1.5, 4, 6.7])
-        s = Polynomial([0, 0, 0, 0, 0, 1, 4.8])
-        self.assertEqual(p, Polynomial([1.5, 4, 6.7]))
-        self.assertTrue(p == Polynomial([1.5, 4, 6.7]))
-        self.assertTrue(p != s)
-        self.assertFalse(p == s)
+
 
 
 if __name__ == '__main__':
