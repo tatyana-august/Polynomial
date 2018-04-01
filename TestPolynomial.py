@@ -173,49 +173,69 @@ class Test_test1(unittest.TestCase):
         self.assertListEqual((pol1 + constanta).coeffs, [1.3, -2.6, 0, -1.5])
         self.assertListEqual((constanta + pol1).coeffs, [1.3, -2.6, 0, -1.5])
 
+    def test_Mul(self):
+
+        pol1 = Polynomial([2, 3, 4])
+        pol2 = Polynomial([7, 8])
+        self.assertListEqual((pol1 * pol2).coeffs, [14, 37, 52, 32])
+        self.assertListEqual((pol2 * pol1).coeffs, [14, 37, 52, 32])
+
+        pol1 = Polynomial([2, -3, -4])
+        pol2 = Polynomial([-7, 8])
+        self.assertListEqual((pol1 * pol2).coeffs, [-14, 37, 4, -32])
+        self.assertListEqual((pol2 * pol1).coeffs, [-14, 37, 4, -32])
+
+        pol1 = Polynomial([2, 0, -4])
+        pol2 = Polynomial([-7, 8])
+        self.assertListEqual((pol1 * pol2).coeffs, [-14, 16, 28, -32])
+        self.assertListEqual((pol2 * pol1).coeffs, [-14, 16, 28, -32])
 
 
+    def test_MulConst(self):
 
-    def test_Mult(self):
-        p = Polynomial([0., 0, 0., -1, 0, 4.5, 0, -6, 9.9])
-        s = Polynomial([0, 0, 0, 0, 0, 1, 4])
-        self.assertListEqual((p * s).coeffs, (s * p).coeffs)
-        p = Polynomial([1, -1, 1])
-        s = Polynomial([-1, 1])
-        self.assertEqual((p * s).coeffs, [-1, 2, -2, 1])
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = 5
+        self.assertListEqual((pol1 * constanta).coeffs, [6.5, -13, 0, 20])
+        self.assertListEqual((constanta * pol1).coeffs, [6.5, -13, 0, 20])
 
-    def test_MultZero(self):
-        p = Polynomial([1, -1, 1])
-        s = Polynomial([0, 0])
-        self.assertEqual((p * s).coeffs, [0])
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = -5
+        self.assertListEqual((pol1 * constanta).coeffs, [-6.5, 13, 0, -20])
+        self.assertListEqual((constanta * pol1).coeffs, [-6.5, 13, 0, -20])
 
-    def test_MultFloat(self):
-        p = Polynomial([1.5, -1.2, 1.0])
-        s = Polynomial([-1, 1])
-        self.assertEqual((p * s).coeffs, [-1.5, 2.7, -2.2, 1])
-
-    def test_MultConstFloat(self):
-        p = Polynomial([1.5, -1.2, 1.0])
-        s = 5
-        self.assertEqual((p * s).coeffs, [7.5, -6, 5])
-
-    def test_MultConst(self):
-        p = Polynomial([5, -1, 1])
-        s = 5
-        self.assertEqual((s * p).coeffs, [25, -5, 5])
-
-    def test_LeftMultConst(self):
-        p = Polynomial([5, -1, 1])
-        s = 5
-        self.assertEqual((p * s).coeffs, [25, -5, 5])
-
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = 0
+        self.assertListEqual((pol1 * constanta).coeffs, [0])
+        self.assertListEqual((constanta * pol1).coeffs, [0])
 
     def test_Sub(self):
-        p = Polynomial([0., 0, 0., -1, 0, 4.5, 0, -6, 9.9])
-        s = Polynomial([0, 0, 0, 0, 0, 1, 4])
-        self.assertListEqual((p - s).coeffs, [-1, 0, 4.5, 0, -7, 5.9])
-        self.assertListEqual((s - p).coeffs, [1, 0, -4.5, 0, 7, -5.9])
 
+        pol1 = Polynomial([1, 2, 3, 4])
+        pol2 = Polynomial([   9, 7, 8])
+        self.assertListEqual((pol1 - pol2).coeffs, [1, -7, -4, -4])
+        self.assertListEqual((pol2 - pol1).coeffs, [-1, 7, 4, 4])
+
+        pol1 = Polynomial([1, 2, 3, 4])
+        pol2 = Polynomial([-9, -7, -8])
+        self.assertListEqual((pol1 - pol2).coeffs, [1, 11, 10, 12])
+        self.assertListEqual((pol2 - pol1).coeffs, [-1, -11, -10, -12])
+
+
+    def test_SubConst(self):
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = 5
+        self.assertListEqual((pol1 - constanta).coeffs, [1.3, -2.6, 0, -1])
+        self.assertListEqual((constanta - pol1).coeffs, [-1.3, 2.6, 0, 1])
+
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = -5
+        self.assertListEqual((pol1 - constanta).coeffs, [1.3, -2.6, 0, 9])
+        self.assertListEqual((constanta - pol1).coeffs, [-1.3, 2.6, 0, -9])
+
+        pol1 = Polynomial([1.3, -2.6, 0, 4])
+        constanta = 0.0
+        self.assertListEqual((pol1 - constanta).coeffs, [1.3, -2.6, 0, 4])
+        self.assertListEqual((constanta - pol1).coeffs, [-1.3, 2.6, 0, -4])
 
 
 
