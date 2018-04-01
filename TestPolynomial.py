@@ -1,8 +1,8 @@
 import unittest
 from Polynomial import Polynomial
 
-
 class Test_test1(unittest.TestCase):
+
     def test_Constructor(self):
 
         pol0 = Polynomial([1.0, 2.1, 3.2, 4.3, 5.4, 6.5])
@@ -68,6 +68,23 @@ class Test_test1(unittest.TestCase):
 
         pol10 = Polynomial([-9.9, 0.0, 8.9])
         self.assertEqual(str(pol10), "-9.9x^2+8.9")
+
+    def test_Neg(self):
+        pol1 = Polynomial([13, 17, 18, 19])
+        self.assertEqual(str(-pol1), "-13x^3-17x^2-18x-19")
+
+        pol2 = Polynomial([-13, -17, -18, -19])
+        self.assertEqual(str(-pol2), "13x^3+17x^2+18x+19")
+
+        pol3 = Polynomial([-13, 17, -18, 19])
+        self.assertEqual(str(-pol3), "13x^3-17x^2+18x-19")
+
+        pol4 = Polynomial([-13.7, 17.8, -18.8, 19.7])
+        self.assertEqual(str(-pol4), "13.7x^3-17.8x^2+18.8x-19.7")
+
+        pol5 = Polynomial([-13.7, 0, 18.8, 0.0])
+        self.assertEqual(str(-pol5), "13.7x^3-18.8x")
+
 
     def test_AddPos(self):
         p = Polynomial([1, 4, 6, 9])
